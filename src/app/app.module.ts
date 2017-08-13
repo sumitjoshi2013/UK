@@ -7,8 +7,8 @@ import { fakeBackendProvider } from './helpers/fake-backend';
 import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpModule, Http, BaseRequestOptions } from '@angular/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpModule, Http, BaseRequestOptions, JsonpModule } from '@angular/http';
 import { RouterModule } from '@angular/router'; 
 
 import { AppComponent } from './app.component';
@@ -22,6 +22,25 @@ import { RegisterprofileComponent } from './registerprofile/registerprofile.comp
 import { SearchprofileComponent } from './searchprofile/searchprofile.component';
 import { HeaderMenuComponent } from './header/header.component';
 import { MultiauthenticationComponent } from './multiauthentication/multiauthentication.component';
+import { ForgetprofileComponent } from './forgetprofile/forgetprofile.component';
+import { BasicinformationComponent } from './basicinformation/basicinformation.component';
+import { OtherinformationsComponent } from './otherinformations/otherinformations.component';
+import { ResidentialinformationComponent } from './residentialinformation/residentialinformation.component';
+import { AccountinformationComponent } from './accountinformation/accountinformation.component';
+import { RegistrationThanksComponent } from './registration-thanks/registration-thanks.component';
+import { ImagegalleryComponent } from './imagegallery/imagegallery.component';
+import { BrowserAnimationsModule } from  '@angular/platform-browser/animations';
+import { GalleryModule, GalleryService} from 'ng-gallery';
+import { FileuploadComponent } from './fileupload/fileupload.component'
+import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
+//import {UPLOAD_DIRECTIVES} from 'ng2-file-uploader/ng2-file-uploader';
+import { GooglerecaptchaComponent } from './googlerecaptcha/googlerecaptcha.component';
+import { RecaptchaModule } from 'ng-recaptcha';
+import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
+import { NgSemanticModule } from "ng-semantic";
+// or
+//import { AlertModule } from 'ngx-bootstrap';
+
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -29,7 +48,44 @@ export function getAuthHttp(http) {
   }), http);
 }
 
-@NgModule({
+ export const galleryConfig  = {
+     "style": {
+    "background": "#121519",
+    "width": "900px",
+    "height": "600px"
+  },
+  "animation": "fade",
+  "loader": {
+    "width": "50px",
+    "height": "50px",
+    "position": "center",
+    "icon": "oval"
+  },
+  "description": {
+    "position": "bottom",
+    "overlay": false,
+    "text": true,
+    "counter": true
+  },
+  "bullets": false,
+  "player": {
+    "autoplay": false,
+    "speed": 3000
+  },
+  "thumbnails": {
+    "width": 120,
+    "height": 90,
+    "position": "top",
+    "space": 20
+  },
+  "navigation": true
+  }
+  
+
+
+
+
+  @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
@@ -41,25 +97,47 @@ export function getAuthHttp(http) {
     RegisterprofileComponent,
     SearchprofileComponent,
     HeaderMenuComponent,
-    MultiauthenticationComponent
+    MultiauthenticationComponent,
+    ForgetprofileComponent,
+    BasicinformationComponent,
+    OtherinformationsComponent,
+    ResidentialinformationComponent,
+    AccountinformationComponent,
+    RegistrationThanksComponent,
+    ImagegalleryComponent,
+    FileuploadComponent,
+    FileSelectDirective,
+    GooglerecaptchaComponent
+
+    
     
   ],
   imports: [
+
+  //AlertModule.forRoot(),
     BrowserModule,
-   
-    FormsModule,
-    HttpModule, 
+   JsonpModule,
+ NgSemanticModule,
+    RecaptchaModule.forRoot(),
+    RecaptchaFormsModule,
+    FormsModule,ReactiveFormsModule,
+    HttpModule, BrowserAnimationsModule,
+     GalleryModule.forRoot(galleryConfig),
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
-      { path: '#', component: AdminComponent, canActivate: [AdminAuthGuard] },
-      { path: '##', component: LoginComponent },
+      { path: 'admin', component: AdminComponent, canActivate: [AdminAuthGuard] },
+      { path: 'login', component: LoginComponent },
       { path: 'no-access', component: NoAccessComponent },
-      { path: '###', component: RegisterprofileComponent },
-      { path: '####', component: SearchprofileComponent, canActivate: [AdminAuthGuard] },
-      { path: '#####', component: MultiauthenticationComponent, canActivate: [AdminAuthGuard] },
+      { path: 'registerprofile', component: RegisterprofileComponent },
+      { path: 'searchprofile', component: SearchprofileComponent, canActivate: [AdminAuthGuard] },
+      { path: 'multiauth', component: MultiauthenticationComponent, canActivate: [AdminAuthGuard] },
+      { path: 'forgetpassword', component: ForgetprofileComponent },
+      { path: 'RegistrationOTP', component: RegistrationThanksComponent },
+      { path: 'Imagegallery', component: ImagegalleryComponent },
+      { path: 'Fileupload', component: FileuploadComponent },
+      //{ path: 'Googlerecaptcha', component: GooglerecaptchaComponent },
       
-   
-    ])
+    ],{ useHash: true })
   ],
   providers: [
     OrderService,
@@ -79,6 +157,7 @@ export function getAuthHttp(http) {
    // MockBackend,
     BaseRequestOptions
   ],
+  
   bootstrap: [AppComponent]
   
 })
