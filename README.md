@@ -4,6 +4,7 @@ https://dethariel.github.io/ng-recaptcha/forms
 https://material.angularjs.org/latest/api/directive/mdDatepicker
 http://valor-software.com/ngx-bootstrap/#/alerts
 http://www.nriol.com/india-statistics/biggest-cities-india.asp
+https://github.com/vlio20/angular-datepicker
 # AuthDemo
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.1.0.
