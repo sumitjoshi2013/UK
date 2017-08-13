@@ -16,8 +16,7 @@ export interface FormModel {
 
 @Component({
   selector: 'app-forgetprofile',
-  templateUrl: './forgetprofile.component.html',
-  styleUrls: ['./forgetprofile.component.css']
+  templateUrl: './forgetprofile.component.html'
 })
 export class ForgetprofileComponent implements OnInit {
 public formModel: FormModel = {};

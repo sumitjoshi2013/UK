@@ -8,8 +8,7 @@ import {GalleryModule, GalleryService} from 'ng-gallery'
 
 @Component({
   selector: 'app-imagegallery',
-  templateUrl: './imagegallery.component.html',
-  styleUrls: ['./imagegallery.component.css']
+  templateUrl: './imagegallery.component.html'
 })
 export class ImagegalleryComponent implements OnInit {
 

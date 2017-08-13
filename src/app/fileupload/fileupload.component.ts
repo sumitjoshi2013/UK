@@ -7,8 +7,7 @@ import { JsonpModule, Jsonp, Response, Http,Headers, RequestOptions, RequestMeth
 //const URL = 'https://evening-anchorage-3159.herokuapp.com/api/';
 @Component({
   selector: 'app-fileupload',
-  templateUrl: './fileupload.component.html',
-  styleUrls: ['./fileupload.component.css']
+  templateUrl: './fileupload.component.html'
 })
 export class FileuploadComponent implements OnInit {
   // public uploader: FileUploader;

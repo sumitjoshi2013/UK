@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-otherinformations',
-  templateUrl: './otherinformations.component.html',
-  styleUrls: ['./otherinformations.component.css']
+  templateUrl: './otherinformations.component.html'
 })
 export class OtherinformationsComponent implements OnInit {
 

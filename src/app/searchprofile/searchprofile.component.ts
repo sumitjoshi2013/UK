@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-searchprofile',
-  templateUrl: './searchprofile.component.html',
-  styleUrls: ['./searchprofile.component.css']
+  templateUrl: './searchprofile.component.html'
 })
 export class SearchprofileComponent implements OnInit {
 

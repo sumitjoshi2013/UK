@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 @Component({
   selector: 'app-residentialinformation',
-  templateUrl: './residentialinformation.component.html',
-  styleUrls: ['./residentialinformation.component.css']
+  templateUrl: './residentialinformation.component.html'
 })
 export class ResidentialinformationComponent implements OnInit {
   private router: Router;

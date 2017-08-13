@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 @Component({
   selector: 'multiauthentication',
-  templateUrl: './multiauthentication.component.html',
-  styleUrls: ['./multiauthentication.component.css']
+  templateUrl: './multiauthentication.component.html'
 })
 export class MultiauthenticationComponent implements OnInit {
 
