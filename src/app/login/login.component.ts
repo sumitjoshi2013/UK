@@ -1,26 +1,43 @@
 import { AuthService } from './../services/auth.service';
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
+
+export interface FormModel {
+  captcha?: string;
+}
+
 
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+   styles: [`
+      .error { color: crimson; }
+      .success { color: green; }
+  ` ]
 })
 export class LoginComponent {
   invalidLogin: boolean; 
+  @ViewChild('f') form: any;
+public formModel: FormModel = {};
 
   constructor(
     private router: Router, 
     private authService: AuthService) { }
 
-  signIn(credentials) {
+    signIn(credentials) {
+    console.log(credentials["captcha"]);
+  if (this.form.valid) {
+
     this.authService.login(credentials)
-      .subscribe(result => { 
+    
+    .subscribe(result => { 
         if (result)
-          this.router.navigate(['/']);
+          this.router.navigate(['/multiauth']);
         else  
           this.invalidLogin = true; 
       });
+     }
+    }
+
   }
-}
+

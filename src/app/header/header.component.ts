@@ -7,5 +7,9 @@ import { Component } from '@angular/core';
 })
 export class HeaderMenuComponent {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) { 
+//let a = authService.currentUser.name;
+//let b = authService.isLoggedIn();
+
+  }
 }

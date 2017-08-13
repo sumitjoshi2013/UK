@@ -1,9 +1,17 @@
 <menubar></menubar><br>
 
+<div class="container">
+            <div class="panel panel-primary" style="width:750px;margin:0px auto">
+
+              <div class="panel-heading">
+                
+                <h2 class="form-signin-heading">Sign in 
+                </h2>
+                </div>
+              <div class="panel-body">
 
 <form class="form-signin" #f="ngForm" (ngSubmit)="signIn(f.value)">
-  
-  <h2 class="form-signin-heading">Please sign in</h2>
+ 
   
   <div *ngIf="invalidLogin" class="alert alert-danger">Invalid username and/or password.</div>
   
@@ -12,9 +20,29 @@
   <br>
   <label for="inputPassword" class="sr-only">Password</label>
   <input type="password" id="inputPassword" name="password" ngModel class="form-control" placeholder="Password" data-toggle="password" required>
+ 
+   <re-captcha
+    [(ngModel)]="formModel.captcha"
+    name="captcha"
+    required
+    siteKey="6LcZgCwUAAAAAPn1N1j7JD2ywG4LrMhxypKiRmc6"
+    #captchaControl="ngModel" ></re-captcha>
+  <div [hidden]="captchaControl.valid || captchaControl.pristine" class="error">Captcha must be solved</div>
+  <div [hidden]="!captchaControl.valid" class="success">Captcha is valid</div>
+  
+  
+  <div [hidden]="f.form.valid" class="error">The form must be filled out</div>
+  <div [hidden]="!f.form.valid" class="success">The form is valid</div>
+  <!--
+  <button (click)="formModel.captcha = ''">Reset Captcha</button>
+-->
+
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  <a routerLink="/###">Register New User</a>
+  <a routerLink="/registerprofile">Register New User</a> ||
+  <a routerLink="/forgetpassword">Forget password</a>
 </form>
 
 
-
+              </div>
+            </div>
+</div>
