@@ -1,46 +1,67 @@
-<menubar></menubar><br>
-<br><br>
- <div class="container">
-            <div class="panel panel-primary" style="width:750px;margin:0px auto">
+<menubar></menubar>
+<!--
+http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
+<div class="container">
+   <div  style="width:250px;margin:0px auto">
+<alert  type="danger" dismissible="true">
+  <div class="panel-heading">{{error}}</div>
+</alert>
+   </div></div>
+ -->
 
-              <div class="panel-heading">Please fill the below detail for registration!!!</div>
-              <div class="panel-body">
 
-  <form class="form-horizontal" action=" " method="post"  id="reg_form">
-    
-       	<legend> Basic information </legend>
-        <fieldset>
-            <!-- Text input-->
-      
-      <div class="form-group">
+<div class="container">
+   <div class="panel panel-primary" style="width:750px;margin:0px auto">
+  
+     <div class="panel-heading">Please fill the below detail for registration!!!</div>
+      <div class="panel-body">
+           
+  <form class="form-horizontal"   [formGroup]="myform" (ngSubmit)="onSubmit()"  id="reg_form">
+
+      <legend> Basic information </legend>
+   <fieldset>
+        <div class="form-group" >
         <label class="col-md-4 control-label">First Name</label>
         <div class="col-md-6  inputGroupContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input  name="first_name" placeholder="First Name" class="form-control"  type="text">
+            <input formControlName="firstName" placeholder="for eg sumit" class="form-control"  type="text">
+          </div>
+          <div *ngIf="firstName.errors && (firstName.dirty || firstName.touched)">
+            <div *ngIf="firstName.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> First Name is required.
           </div>
         </div>
+        </div>
       </div>
-      
+     </div>
       <!-- Text input-->
+          
       
-      <div class="form-group">
-        <label class="col-md-4 control-label" >Last Name</label>
+   <div class="form-group">
+        <label class="col-md-4 control-label">Last Name</label>
         <div class="col-md-6  inputGroupContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input name="last_name" placeholder="Last Name" class="form-control"  type="text">
+            <input formControlName="lastName" placeholder="for eg joshi" class="form-control" type="text">
+          </div>
+
+             <div *ngIf="lastName.errors && (lastName.dirty || lastName.touched)">
+            <div *ngIf="lastName.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> Last Name  is required.
           </div>
         </div>
-      </div>
-      
+        </div>
+        </div>
+   </div>
+ 
      <div class="form-group">
         <label class="col-md-4 control-label">Gender</label>
         <div class="col-md-6 selectContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-            <select name="gender" class="form-control selectpicker" >
-              <option value=" " >Please select your gender</option>
-              <option>Male</option>
-              <option>Female</option>
-               </select>
+            <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of genderList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -50,88 +71,266 @@
         <label class="col-md-4 control-label">Marital Status</label>
         <div class="col-md-6 selectContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-            <select name="maritalstatus" class="form-control selectpicker" >
-              <option value=" " >Please select your Marital Status</option>
-              <option>Single</option>
-              <option>Divorced</option>
-              <option>Other</option>
-               </select>
+             <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of maritalStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
           </div>
         </div>
       </div>
 
-      <!-- Text input-->
       
+
+
+      <!-- Text input-->
       <div class="form-group">
         <label class="col-md-4 control-label">Gotra</label>
         <div class="col-md-6  inputGroupContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input name="gotra" placeholder="" class="form-control" type="text">
+            <input formControlName="gotra" placeholder="" class="form-control" type="text">
+          </div>
+
+            <div *ngIf="gotra.errors && (gotra.dirty || gotra.touched)">
+            <div *ngIf="gotra.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> gotra  is required.
           </div>
         </div>
+        </div>
+
+        </div>
       </div>
-      
-      
+
       <!-- Text input-->
-      
       <div class="form-group">
-        <label class="col-md-4 control-label">Phone #</label>
+        <label class="col-md-4 control-label">Phone number</label>
         <div class="col-md-6  inputGroupContainer">
-          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-            <input name="phone" placeholder="(845)555-1212" class="form-control" type="text">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-mobile"></i></span>
+            <input formControlName="phone" placeholder="(+91) - (9650899699)" class="form-control" type="text">
+          </div>
+
+          <div *ngIf="phone.errors && (phone.dirty || phone.touched)">
+            <div *ngIf="phone.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> Mobile is required.
           </div>
         </div>
+        </div>
+
+        </div>
       </div>
-    
        <!-- Text input-->
-      
       <div class="form-group">
         <label class="col-md-4 control-label">Date of birth</label>
         <div class="col-md-6  inputGroupContainer">
-          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-            <input name="dob" placeholder="dd-MM-yyyy" class="form-control" type="text">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+            <input formControlName="dob" placeholder="dd-MM-yyyy" class="form-control" type="text">
+          </div>
+
+          <div *ngIf="dob.errors && (dob.dirty || dob.touched)">
+            <div *ngIf="dob.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> Date of birth is required.
           </div>
         </div>
-      </div>
+        </div>
 
+        </div>
+      </div>
        <!-- Text input-->
-      
       <div class="form-group">
         <label class="col-md-4 control-label">Place of birth</label>
         <div class="col-md-6  inputGroupContainer">
-          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-            <input name="birthplace" placeholder="like delhi, haldwani, almora" class="form-control" type="text">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+            <input formControlName="birthplace" placeholder="like delhi, haldwani, almora" class="form-control" type="text">
+
+          </div>
+
+             <div *ngIf="birthplace.errors && (birthplace.dirty || birthplace.touched)">
+            <div *ngIf="birthplace.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> Birthplace  is required.
           </div>
         </div>
-      </div>
+        </div>
 
+
+        </div>
+      </div>
        <!-- Text input-->
-      
       <div class="form-group">
         <label class="col-md-4 control-label">Time of birth</label>
         <div class="col-md-6  inputGroupContainer">
-          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-            <input name="timeofbirth" placeholder="hh:mm am/pm (eg 02:40 am)" class="form-control" type="text">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+            <input formControlName="timeofbirth" placeholder="hh:mm am/pm (eg 02:40 am)" class="form-control" type="text">
+          </div>
+
+            <div *ngIf="timeofbirth.errors && (timeofbirth.dirty || timeofbirth.touched)">
+            <div *ngIf="timeofbirth.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> Time of Birth  is required.
+          </div>
+        </div>
+        </div>
+
+        </div>
+      </div>
+      </fieldset>
+
+
+      <legend> Other Information </legend>
+       <fieldset>
+      <!-- Form Name -->
+    
+          <div class="form-group">
+        <label class="col-md-4 control-label">My Height</label>
+        <div class="col-md-6  inputGroupContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input  name="HEIGHT" placeholder="for eg 5.6" class="form-control"  type="text"> 
           </div>
         </div>
       </div>
-        
-        </fieldset>
 
-    <fieldset>
-      
-      <!-- Form Name -->
+      <div class="form-group">
+        <label class="col-md-4 control-label">My Weight</label>
+        <div class="col-md-6  inputGroupContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+            <input  name="WEIGHT" placeholder="for eg 56" class="form-control"  type="text"> 
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label">My Income Range</label>
+       <div class="col-md-6 selectContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+             <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of monthlyIncomeList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+ <div class="form-group">
+        <label class="col-md-4 control-label">Smoke Status</label>
+        <div class="col-md-6 selectContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+             <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of smokeStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+       <div class="form-group">
+        <label class="col-md-4 control-label">Diet Status</label>
+        <div class="col-md-6 selectContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+             <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of dietStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+
+       <div class="form-group">
+        <label class="col-md-4 control-label">My Work Status</label>
+        <div class="col-md-6 selectContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+             <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of workStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
+          </div>
+      </div>
+  </div>
+
+      <div class="form-group">
+        <label class="col-md-4 control-label">Drinking Status</label>
+         <div class="col-md-6 selectContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-glass"></i></span>
+             <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of drinkStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
+          </div>
+      </div>
+  </div>
+
+           <div class="form-group">
+        <label class="col-md-4 control-label">My Religion</label>
+        <div class="col-md-6 selectContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+              <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of religionStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
+          </div>
+      </div>
+        </div>
+
+            <div class="form-group">
+        <label class="col-md-4 control-label">MY Mother Toung</label>
+        <div class="col-md-6 selectContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+             <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of motherToungeList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
+          </div>
+      </div>
+          </div>
+
+            <div class="form-group">
+        <label class="col-md-4 control-label">My Sub Caste</label>
+        <div class="col-md-6 selectContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+              <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of subCasteStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
+          </div>
+      </div>
+          </div>
+
+            <div class="form-group">
+        <label class="col-md-4 control-label">My Rashi</label>
+      <div class="col-md-6 selectContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
+              <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of rashiStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
+          </div>
+      </div>
+  </div>
+
+        <div class="form-group">
+        <label class="col-md-4 control-label">About my Education</label>
+        <div class="col-md-6  inputGroupContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-education"></i></span>
+            <textarea  name="ABOUT_MY_EDUCATION" placeholder="for eg I have done MBC/MCA..." class="form-control"  type="text">
+            </textarea>
+          </div>
+        </div>
+      </div>
+
+        <div class="form-group">
+        <label class="col-md-4 control-label">About my Profession</label>
+        <div class="col-md-6  inputGroupContainer">
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+            <textarea  name="ABOUT_MY_PROFESSION" placeholder="for eg I am working as .. earing ... total exp  ..." class="form-control"  type="text">
+            </textarea>
+          </div>
+        </div>
+      </div>
+
+    </fieldset>
+
+
       <legend> Residential Information </legend>
-    <!-- http://www.c-sharpcorner.com/article/how-to-upload-images-in-angular-2-application/ -->
-      <div class="form-group"> <input type="file" name="student_img" required (change)="fileChange(input)" #input /> </div>  
-        <div> <img [attr.src]='file_srcs[0]' alt="" /> </div> 
-      <!-- Text input-->
+       <fieldset>
+        <!-- Text input-->
       
       <div class="form-group">
         <label class="col-md-4 control-label">Full Address</label>
         <div class="col-md-6  inputGroupContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-            <input name="address" placeholder="Address" class="form-control" type="text">
+            <textarea name="address" placeholder="Address" class="form-control" type="text"> </textarea>
           </div>
         </div>
       </div>
@@ -143,11 +342,10 @@
       <div class="form-group">
         <label class="col-md-4 control-label">Country</label>
         <div class="col-md-6 selectContainer">
-          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-            <select name="country" class="form-control selectpicker" >
-              <option value=" " >Please select your country</option>
-              <option>India</option>
-               </select>
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+             <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of countryStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -155,13 +353,12 @@
       <!-- Text input-->
       
       <div class="form-group">
-        <label class="col-md-4 control-label">City</label>
+        <label class="col-md-4 control-label">Current Living City</label>
         <div class="col-md-6 selectContainer">
-          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-            <select name="city" class="form-control selectpicker" >
-              <option value=" " >Please select your city</option>
-              <option>Uttrakhand</option>
-               </select>
+          <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+              <select name="gender"   class="ui fluid search selection dropdown" >
+              <option *ngFor="let item of cityStatusList;" value= {{item.id}} >{{item.name}}</option>
+            </select>
           </div>
         </div>
       </div>
@@ -202,15 +399,26 @@
      
        </fieldset>
 
-       	<legend> Account information </legend>
-        <fieldset>
+      <legend> Account information </legend>
+      <fieldset>
         <!-- Text input-->
       <div class="form-group">
         <label class="col-md-4 control-label">E-Mail</label>
         <div class="col-md-6  inputGroupContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-            <input name="email" placeholder="E-Mail Address" class="form-control"  type="text">
+            <input formControlName="email" placeholder="E-Mail Address" class="form-control"  type="text">
           </div>
+
+
+            <div *ngIf="email.errors && (email.dirty || email.touched)">
+            <div *ngIf="email.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> Email Id  is required for communication purpose.
+          </div>
+        </div>
+        </div>
+
+
         </div>
       </div>
       
@@ -220,14 +428,24 @@
                     Password
                 </label>
                 <div class="col-md-6  inputGroupContainer">
-                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
             <input class="form-control" id="userPw" type="password" placeholder="password" 
-                       name="password" data-minLength="5"
+                       formControlName="password" data-minLength="5"
                        data-error="some error"
                        required/>
                 <span class="glyphicon form-control-feedback"></span>
                 <span class="help-block with-errors"></span>
                 </div>
+
+                   <div *ngIf="password.errors && (password.dirty || password.touched)">
+            <div *ngIf="password.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> Password  is required for authencation purpose.
+          </div>
+        </div>
+        </div>
+
+
              </div>
         </div>
      
@@ -236,32 +454,74 @@
                    Confirm Password
                 </label>
                  <div class="col-md-6  inputGroupContainer">
-                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
             <input class="form-control {$borderColor}" id="userPw2" type="password" placeholder="Confirm password" 
-                       name="confirmPassword" data-match="#confirmPassword" data-minLength="5"
+                       formControlName="confirmPassword" data-match="#confirmPassword" data-minLength="5"
                        data-match-error="some error 2"
                        required/>
                 <span class="glyphicon form-control-feedback"></span>
                 <span class="help-block with-errors"></span>
-      			 </div>
+             </div>
+               
+
+                   <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
+            <div *ngIf="confirmPassword.errors.required">
+            <div class="alert-warning">
+           <strong>Warning!</strong> Password  is required for authencation purpose.
+          </div>
+        </div>
+        </div>
+
              </div>
         </div>
-     
+  
+         </fieldset>
+
+  <legend> Security Check </legend>
+      <fieldset>
+        <form class="form-signin" #f="ngForm" (ngSubmit)="signIn(f.value)">
+ 
+
+ <div class="form-group has-feedback">
+            <label for="confirmPassword"  class="col-md-4 control-label">
+                </label>
+                 <div class="col-md-6  inputGroupContainer">
+                <div class="input-group"> 
+                      <re-captcha
+                        [(ngModel)]="formModel.captcha"
+                        name="captcha"
+                        required
+                        siteKey="6LcZgCwUAAAAAPn1N1j7JD2ywG4LrMhxypKiRmc6"
+                        #captchaControl="ngModel" ></re-captcha>
+                      <div [hidden]="captchaControl.valid || captchaControl.pristine" class="error">Captcha must be solved</div>
+                     <div [hidden]="f.form.valid" class="error">The form must be filled out</div>
+                      <span class="glyphicon form-control-feedback"></span>
+                <span class="help-block with-errors"></span>
+             </div>
+         
+             </div>
+        </div>
+        </form>
+       </fieldset>
+
+    <legend> Terms and Conditions </legend>
+      <fieldset>
+
       <input type="checkbox" required name="terms" onchange="this.setCustomValidity(validity.valueMissing ? 'Please indicate that you accept the Terms and Conditions' : '');" id="field_terms">   <label for="terms">I agree with the <a href="/terms.html" title="You may read our terms and conditions by clicking on this link">terms and conditions</a> for Registration.</label><span class="req">* </span>
   
       <!-- Button -->
       <div class="form-group">
         <label class="col-md-4 control-label"></label>
         <div class="col-md-4">
-
-             
-
           <button type="submit" class="btn btn-warning" >Send <span class="glyphicon glyphicon-send"></span></button>
+         <button (click)="gotoLogin()" type="submit" class="btn btn-warning" >Back 
+            <span class="glyphicon glyphicon-send"></span>
+          </button>
         </div>
       </div>
     </fieldset>
   </form>
- </div>
-      </div>
+    </div>
+  </div>
  </div>
   

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { Router } from "@angular/router";
 @Component({
   selector: 'multiauthentication',
   templateUrl: './multiauthentication.component.html',
@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MultiauthenticationComponent implements OnInit {
 
-  constructor() { }
+  constructor( private router: Router) { }
 
   ngOnInit() {
   }
+    gotoLogin()
+    {
+      this.router.navigate(['/login']);
 
+    }
 }

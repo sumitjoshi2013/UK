@@ -1,45 +1,114 @@
-import { Http,Headers, RequestOptions, RequestMethod } from '@angular/http';
+import { 
+  JsonpModule, Jsonp, Response,
+  Http,Headers, RequestOptions, RequestMethod } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { tokenNotExpired, JwtHelper } from 'angular2-jwt'; 
-import 'rxjs/add/operator/map'; 
+
+import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/Rx'; 
+class SearchItem {
+  constructor(public email: string,
+              public password: string,
+              public token: string
+              ) {
+  }
+}
 
 @Injectable()
-export class AuthService {
+export class AuthService 
+{
   currentUser: any; 
+apiRoot: string = 'http://localhost:32123/api/Token';
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private jsonp: Jsonp) 
+  {
+
     let token = localStorage.getItem('token');
     if (token) {
       let jwt = new JwtHelper();
       this.currentUser = jwt.decodeToken(token);
     }
   }
-////http://localhost:39048/api/Token?username="a"&password="b"
-  login(credentials) { 
-     let headers = new Headers({ 'Content-Type': 'application/json' });
-        let options = new RequestOptions( {method: RequestMethod.Post, headers: headers });
 
-     // console.log("credentials: " + JSON.stringify(credentials));
-   return this.http.get('http://localhost:35212/api/Token?username=a&password=b', JSON.stringify(credentials))
-    .map(response => {
-       // console.log("credentials: " + JSON.stringify(credentials));
-      let result = response.json();
-      //let result ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IlwiYVwiIiwicm9sZSI6ImFkbWlucyIsIm5iZiI6MTUwMTg2NTE4OCwiZXhwIjoxNTAxODY2Mzg4LCJpYXQiOjE1MDE4NjUxODh9.6BPtO5rPJ5lxd197v1McwZ_ZoGJkZGboM90Ku1vz7Ck";
-      //let result = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6ImEiLCJhZG1pbiI6InRydWUiLCJuYmYiOjE1MDE4Njc1MDcsImV4cCI6MTUwMTg2ODcwNywiaWF0IjoxNTAxODY3NTA3fQ.KcagBSWRJVqp4zbBHuRTbmrvY1f6oIwqEDYlC1_oi-Q";
+   private handleError (error: Response) {
+        console.error(error);
+        return Observable.throw(error.json().error || ' error');
+    }
+  private results: Observable<SearchItem[]>;
+
+
+  login(credentials) {
+    /*
+let params1 = new URLSearchParams();
+//params.set('search', term); // the user's search value
+//params.set('action', 'opensearch');
+params1.set('format', 'json');
+//params1.set('callback', "ng_jsonp.__req0.finished");
+params1.set('callback', "JSONP_CALLBACK");
+
+    let data = JSON.stringify(credentials);
+     let user = credentials.email;
+     let password = credentials.password;
+     console.log(user);
+    let apiURL = `${this.apiRoot}?username= ${user}&password=${password}`; 
+    return this.jsonp.get(apiURL, { search: params1 })  
+        .map(res => {
+          return res.json().results.map(item => {
+            let result = item.json()      
+            if (result) {
+                localStorage.setItem('token', result);
+                console.log("result: " + result);
+                let jwt = new JwtHelper();
+                this.currentUser = jwt.decodeToken(localStorage.getItem('token'));
+                console.log("currentUser: " + this.currentUser);
+                return true; 
+                    }
+            else
+              {
+                console.log("Error:...");
+                localStorage.removeItem('token');
+                 this.currentUser = null;
+                  return false; 
+              }
+          });
+        });
+  //}
+    */  
     
-      //console.log("result.token: " + result);
-      //if (result && result.token) {
-      if (result) {
-        localStorage.setItem('token', result);
-        console.log("result: " + result);
-        let jwt = new JwtHelper();
-        this.currentUser = jwt.decodeToken(localStorage.getItem('token'));
+    let user = credentials.email;
+     let password = credentials.password;
+     let _InstUrl = "http://localhost/ClientApi/api/Token?username="+user+"&password="+password+""; 
+    //console.log(_InstUrl);
+let data = JSON.stringify(credentials); //[{"email": "sumit.joshi"}, {"password": "pwd"}];
 
-        return true; 
-      }
-      else return false; 
-    });
-  }
+ let headers = new Headers({'Content-Type':'application/x-www-form-urlencoded'});
+  let options = new RequestOptions({ headers: headers, method: "get"});
+      return this.http.get(_InstUrl,  options)
+          .map(res =>{
+            let result = res.json()           
+          //console.log(result)
+          //
+            if (result) {
+                localStorage.setItem('token', result);
+                console.log("result: " + result);
+                let jwt = new JwtHelper();
+                this.currentUser = jwt.decodeToken(localStorage.getItem('token'));
+                console.log("currentUser: " + this.currentUser);
+                return true; 
+                    }
+            else
+              {
+                localStorage.removeItem('token');
+                 this.currentUser = null;
+                  return false; 
+              }
+          }
+                
+        )._catch(this.handleError);
+        
+  }              
+  
 
   logout() { 
     localStorage.removeItem('token');
