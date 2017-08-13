@@ -37,9 +37,7 @@ import { FileSelectDirective, FileDropDirective } from 'ng2-file-upload';
 import { GooglerecaptchaComponent } from './googlerecaptcha/googlerecaptcha.component';
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
-import { NgSemanticModule } from "ng-semantic";
-// or
-//import { AlertModule } from 'ngx-bootstrap';
+import {DpDatePickerModule} from 'ng2-date-picker';
 
 
 export function getAuthHttp(http) {
@@ -108,16 +106,14 @@ export function getAuthHttp(http) {
     FileuploadComponent,
     FileSelectDirective,
     GooglerecaptchaComponent
-
-    
     
   ],
   imports: [
 
   //AlertModule.forRoot(),
     BrowserModule,
-   JsonpModule,
- NgSemanticModule,
+    JsonpModule,
+DpDatePickerModule,
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     FormsModule,ReactiveFormsModule,

@@ -1,6 +1,9 @@
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgSemanticModule } from "ng-semantic";
+import {DatePickerComponent} from 'ng2-date-picker';
+
+
 
 import {
     ReactiveFormsModule,
@@ -25,7 +28,17 @@ export interface FormModel {
   ` ]
 })
 export class RegisterprofileComponent implements OnInit {
- public alerts: any = [];
+ @ViewChild('dayPicker') datePicker: DatePickerComponent;
+
+    open() {
+        this.datePicker.api.open();
+    }
+
+    close() {
+         this.datePicker.api.close();
+    }
+ 
+  public alerts: any = [];
  error = "error";
  // minDate = new Date(2000, 0, 1);
   maxDate = new Date(2000, 0, 1);
