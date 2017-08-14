@@ -1,8 +1,9 @@
+//https://github.com/kekeh/mydatepicker
 import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from "@angular/router";
 import { NgSemanticModule } from "ng-semantic";
 import {DatePickerComponent} from 'ng2-date-picker';
-
+import {IMyDpOptions} from 'mydatepicker/src/my-date-picker';
 
 
 import {
@@ -29,7 +30,7 @@ export interface FormModel {
 })
 export class RegisterprofileComponent implements OnInit {
  @ViewChild('dayPicker') datePicker: DatePickerComponent;
-
+@ViewChild('f') form: any;
     open() {
         this.datePicker.api.open();
     }
@@ -38,6 +39,23 @@ export class RegisterprofileComponent implements OnInit {
          this.datePicker.api.close();
     }
  
+    date = new Date();
+    year =  (this.date.getFullYear() - 18);
+    month =  (this.date.getMonth() + 1);
+    day =  (this.date.getDate());
+    maxBirthDate = "Your birth date should be greater then: " +  (this.day+"-"+this.month+"-"+this.year);
+    private maxdate: Object = { date: { year: this.year, month: this.month, day: this.day } };
+
+    myDatePickerOptions: IMyDpOptions = {
+      todayBtnTxt: 'Today',
+      dateFormat: 'yyyy-mm-dd',
+      firstDayOfWeek: 'mo',
+      sunHighlight: true,
+      inline: false,
+      //disableDateRanges: { year: this.year, month: this.month, day: this.day },
+      disableDateRanges: [{begin: {year: this.year, month: this.month, day: this.day}, end: {year: this.date.getFullYear(), month: this.date.getMonth() + 1, day: this.date.getDate()}}]
+  };
+    
   public alerts: any = [];
  error = "error";
  // minDate = new Date(2000, 0, 1);
@@ -45,6 +63,7 @@ export class RegisterprofileComponent implements OnInit {
   
 
   genderList = [
+    {id:0, name:''},
     {id:100, name:'Male'},
     {id:101, name:'Female'}
    ];
