@@ -1,10 +1,11 @@
 //https://github.com/kekeh/mydatepicker
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit,ViewChild ,Directive, 
+  forwardRef, Attribute,OnChanges, SimpleChanges,Input} from '@angular/core';
 import { Router } from "@angular/router";
 import { NgSemanticModule } from "ng-semantic";
 import {DatePickerComponent} from 'ng2-date-picker';
 import {IMyDpOptions} from 'mydatepicker/src/my-date-picker';
-
+import { EqualValidator } from './password.match.directive';
 // We are going to be making a call to an external API and we’ll use the Angular HTTP library to accomplish this. Here we are importing the API’s we’ll need to work with.
 import {Http, Response, Request, RequestMethod} from '@angular/http';
 
@@ -190,8 +191,14 @@ public formModel: FormModel = {};
       validator: PasswordValidation.MatchPassword // your validation method
     })
   */ }
+checkPasswords(group: FormGroup) { // here we have the 'passwords' group
+  let pass = group.controls.password.value;
+  let confirmPass = group.controls.confirmPass.value;
 
+  return pass === confirmPass ? null : { notSame: true }     
+}
   createFormControls() {
+   
     this.firstName = new FormControl('', Validators.required);
     this.lastName = new FormControl('', Validators.required);
     this.phone = new FormControl('', Validators.required);
@@ -202,7 +209,7 @@ public formModel: FormModel = {};
     this.birthplace = new FormControl('', Validators.required);
     //this.timeofbirth = new FormControl('', Validators.required);
     this.email = new FormControl('', Validators.required);
-    this.password = new FormControl('', Validators.required);
+   this.password = new FormControl('', Validators.required);
     this.confirmPassword = new FormControl('', Validators.required);
     this.height= new FormControl('', Validators.required);
     this.maritalstatus= new FormControl('', Validators.required);

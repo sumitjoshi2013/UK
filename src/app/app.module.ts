@@ -39,6 +39,7 @@ import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import {DpDatePickerModule} from 'ng2-date-picker';
 import {MyDatePickerModule } from 'mydatepicker/src/my-date-picker';
+import { EqualValidator } from './registerprofile//password.match.directive';
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -105,15 +106,15 @@ export function getAuthHttp(http) {
     ImagegalleryComponent,
     FileuploadComponent,
     FileSelectDirective,
-    GooglerecaptchaComponent
-    
+    GooglerecaptchaComponent,
+    EqualValidator
   ],
   imports: [
-MyDatePickerModule ,
+    MyDatePickerModule ,
   //AlertModule.forRoot(),
     BrowserModule,
     JsonpModule,
-DpDatePickerModule,
+    DpDatePickerModule,
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     FormsModule,ReactiveFormsModule,

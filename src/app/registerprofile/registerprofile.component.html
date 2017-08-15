@@ -478,18 +478,20 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
             <input 
       type="password" 
       class="form-control" 
-      id="confirmPassword"
-      formControlName="confirmPassword" >
+      id="confirmPassword"   validateEqual="password" reverse="false"
+      formControlName="confirmPassword" [(ngModel)]="myform.confirmPassword"
+      >
                 <span class="glyphicon form-control-feedback"></span>
                 <span class="help-block with-errors"></span>
              </div>
-                   <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched)">
+                   <div *ngIf="confirmPassword.errors && (confirmPassword.dirty || confirmPassword.touched  )">
             <div *ngIf="confirmPassword.errors.required">
             <div class="alert-warning">
            <strong>Warning!</strong> Password  is required for authencation purpose.
           </div>
         </div>
         </div>
+    status  {{confirmPassword.pristine }} {{confirmPassword.dirty}}
              </div>
         </div>
   
@@ -501,14 +503,14 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
  
 
  <div class="form-group has-feedback">
-            <label for="confirmPassword"  class="col-md-4 control-label">
+            <label for="captcha"  class="col-md-4 control-label">
                 </label>
                  <div class="col-md-6  inputGroupContainer">
                 <div class="input-group"> 
                       <re-captcha
                         [(ngModel)]="formModel.captcha"
                         name="captcha"
-                        required
+                        required 
                         siteKey="6LcZgCwUAAAAAPn1N1j7JD2ywG4LrMhxypKiRmc6"
                         #captchaControl="ngModel" ></re-captcha>
                       <div [hidden]="captchaControl.valid || captchaControl.pristine" class="error">Captcha must be solved</div>
