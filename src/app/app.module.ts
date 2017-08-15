@@ -38,7 +38,7 @@ import { GooglerecaptchaComponent } from './googlerecaptcha/googlerecaptcha.comp
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import {DpDatePickerModule} from 'ng2-date-picker';
-
+import {MyDatePickerModule } from 'mydatepicker/src/my-date-picker';
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -109,7 +109,7 @@ export function getAuthHttp(http) {
     
   ],
   imports: [
-
+MyDatePickerModule ,
   //AlertModule.forRoot(),
     BrowserModule,
     JsonpModule,

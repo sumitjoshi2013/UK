@@ -16,7 +16,7 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
      <div class="panel-heading">Please fill the below detail for registration!!!</div>
       <div class="panel-body">
            
-  <form  class="form-horizontal" [formGroup]="myform" (ngSubmit)="onSubmit()"  id="reg_form">
+  <form  class="form-horizontal"  [formGroup]="myform" (ngSubmit)="onSubmit(registerForm)"  id="reg_form">
 
       <legend> Basic information </legend>
    <fieldset>
@@ -78,15 +78,12 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
         </div>
       </div>
 
-      
-
-
       <!-- Text input-->
       <div class="form-group">
         <label class="col-md-4 control-label">Gotra</label>
         <div class="col-md-6  inputGroupContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input formControlName="gotra" placeholder="" class="form-control" type="text">
+            <input formControlName="gotra" placeholder="for eg kaushik, parashar, bhardwaj" class="form-control" type="text">
           </div>
 
             <div *ngIf="gotra.errors && (gotra.dirty || gotra.touched)">
@@ -105,11 +102,14 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
         <label class="col-md-4 control-label">Phone number</label>
         <div class="col-md-6  inputGroupContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-mobile"></i></span>
-            <input formControlName="phone" placeholder="(+91) - (9650899699)" class="form-control" type="text">
+            <input formControlName="phone" placeholder="+91-965-0899699"
+             maxlength="10"
+               minlength="10"   pattern="/^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/"
+            class="form-control" type="text">
           </div>
 
           <div *ngIf="phone.errors && (phone.dirty || phone.touched)">
-            <div *ngIf="phone.errors.required">
+            <div *ngIf="phone.errors.required || phone.error.pattern">
             <div class="alert-warning">
            <strong>Warning!</strong> Mobile is required.
           </div>
@@ -187,7 +187,7 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
         <label class="col-md-4 control-label">My Height</label>
         <div class="col-md-6  inputGroupContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input  name="HEIGHT" placeholder="for eg 5.6" class="form-control"  type="text"> 
+            <input  name="HEIGHT" placeholder="for eg 5.6 (only decimal value)"  pattern="/^[0-9]+(\.[0-9]{1,1})?$/" step="0.1" class="form-control"  type="text"> 
           </div>
         </div>
       </div>
@@ -196,7 +196,7 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
         <label class="col-md-4 control-label">My Weight</label>
         <div class="col-md-6  inputGroupContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-            <input  name="WEIGHT" placeholder="for eg 56" class="form-control"  type="text"> 
+            <input  name="WEIGHT" placeholder="for eg 56 (only numeric value)"  pattern="[0-9]+" class="form-control"  type="text"> 
           </div>
         </div>
       </div>
@@ -283,9 +283,12 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
         <label class="col-md-4 control-label">My Sub Caste</label>
         <div class="col-md-6 selectContainer">
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-list"></i></span>
-              <select required name="gender"   class="ui fluid search selection dropdown" >
+            <!-- 
+            <select required name="gender"   class="ui fluid search selection dropdown" >
               <option *ngFor="let item of subCasteStatusList;" value= {{item.id}} >{{item.name}}</option>
             </select>
+            -->
+           <input name="mySubCaste" placeholder="form eg Joshi/Pant/Bisht/Pandey" class="form-control"  type="text">
           </div>
       </div>
           </div>
@@ -337,8 +340,6 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
         </div>
       </div>
       
-
-
       <!-- Select Basic -->
       
       <div class="form-group">
@@ -410,20 +411,15 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
           <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
             <input formControlName="email" placeholder="E-Mail Address" 
             class="form-control"  type="text"
-            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
-            >
+            pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$">
           </div>
-
-
-            <div *ngIf="email.errors && (email.dirty || email.touched) && email.errors.pattern">
+        <div *ngIf="email.errors && (email.dirty || email.touched) && email.errors.pattern">
             <div *ngIf="email.errors.required">
             <div class="alert-warning">
            <strong>Warning!</strong> Please verify the Email Id communication purpose.
           </div>
         </div>
         </div>
-
-
         </div>
       </div>
       
@@ -434,10 +430,12 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
                 </label>
                 <div class="col-md-6  inputGroupContainer">
                 <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input class="form-control" id="userPw" type="password" placeholder="password" 
-                       formControlName="password" data-minLength="5"
-                       data-error="some error"
-                       required/>
+            <input 
+      type="password" 
+      id="password" 
+      class="form-control" 
+      formControlName="password" 
+    > 
                 <span class="glyphicon form-control-feedback"></span>
                 <span class="help-block with-errors"></span>
                 </div>
@@ -460,10 +458,12 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
                 </label>
                  <div class="col-md-6  inputGroupContainer">
                 <div class="input-group"> <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-            <input class="form-control {$borderColor}" id="userPw2" type="password" placeholder="Confirm password" 
-                       formControlName="confirmPassword" data-match="#confirmPassword" data-minLength="5"
-                       data-match-error="some error 2"
-                       required/>
+            <input 
+      type="password" 
+      class="form-control" 
+      id="confirmPassword"
+      formControlName="confirmPassword" 
+      >
                 <span class="glyphicon form-control-feedback"></span>
                 <span class="help-block with-errors"></span>
              </div>
@@ -507,6 +507,7 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
              </div>
         </div>
         </form>
+      
        </fieldset>
 
     <legend> Terms and Conditions </legend>
@@ -518,8 +519,9 @@ http://valor-software.com/ngx-bootstrap/index-bs4.html#/alerts
       <div class="form-group">
         <label class="col-md-4 control-label"></label>
         <div class="col-md-4">
-          <button   [disabled]="f.invalid" type="submit" class="btn btn-warning" >Send <span class="glyphicon glyphicon-send"></span></button>
-         <button (click)="gotoLogin()" type="submit" 
+         status: {{f.invalid}} {{this.myform.invalid}}
+         <button   [disabled]="f.invalid || this.myform.invalid" type="submit" class="btn btn-warning" >Send <span class="glyphicon glyphicon-send"></span></button>
+      <button (click)="gotoLogin()" type="submit" 
                 class="btn btn-warning" 
               >Back 
             <span class="glyphicon glyphicon-send"></span>

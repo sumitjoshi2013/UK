@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { NgSemanticModule } from "ng-semantic";
 import {DatePickerComponent} from 'ng2-date-picker';
 import {IMyDpOptions} from 'mydatepicker/src/my-date-picker';
-
+//import { PasswordValidation } from './password-validation';
 
 import {
     ReactiveFormsModule,
@@ -63,7 +63,7 @@ export class RegisterprofileComponent implements OnInit {
   
 
   genderList = [
-    {id:0, name:''},
+  
     {id:100, name:'Male'},
     {id:101, name:'Female'}
    ];
@@ -161,7 +161,15 @@ public formModel: FormModel = {};
    confirmPassword:  FormControl;
   //@ViewChild('f') form: any;
 
-  constructor(private router: Router, private formBuilder: FormBuilder) { }
+  constructor(private router: Router, private formBuilder: FormBuilder) {
+/*
+     this.myform = formBuilder.group({
+      password: ['', Validators.required],
+      confirmPassword: ['', Validators.required]
+    }, {
+      validator: PasswordValidation.MatchPassword // your validation method
+    })
+  */ }
 
   
   ngOnInit() {
@@ -189,7 +197,7 @@ public formModel: FormModel = {};
   createForm() {
      this.myform = new FormGroup({
         firstName: this.firstName,
-         firstName1: this.firstName1,
+      //   firstName1: this.firstName1,
         lastName: this.lastName,
         phone: this.phone,
         dob: this.dob,
@@ -204,8 +212,9 @@ public formModel: FormModel = {};
   }
   
    onSubmit() {
+        console.log("Form Submitted!" + this.myform);
     if (this.myform.valid) {
-      console.log("Form Submitted!");
+      console.log("Form Submitted!" + this.myform);
        this.router.navigate(['/RegistrationOTP']);
       //we cab call the rest api here..
       this.myform.reset();
