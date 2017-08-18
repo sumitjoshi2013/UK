@@ -1,13 +1,9 @@
 <br>
 <br>
 
-
 <p *ngIf="authService.isLoggedIn()">
   Welcome ? {{ authService.currentUser.name }}
 </p>
-
-
-
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -16,17 +12,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button> <!-- #1 -->
+            </button> 
            <a *ngIf="authService.isLoggedIn()" class="navbar-brand" routerLink="/admin">Admin</a>
            <a *ngIf="authService.isLoggedIn()" class="navbar-brand" routerLink="/searchprofile">Search</a>
            <a *ngIf="authService.isLoggedIn()" class="navbar-brand" (click)="authService.logout()">Logout</a>
            <a  class="navbar-brand" routerLink="/login">Login</a>
         </div>
-        <!-- <div class="collapse navbar-collapse"> 
-            <ul class="nav navbar-nav">
-                <li><a>Link 1</a></li>
-                <li><a>Link 2</a></li>
-            </ul>
-        </div>  #2 -->
-    </div>
+     </div>
 </nav>
+
+

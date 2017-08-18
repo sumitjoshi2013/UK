@@ -15,23 +15,23 @@ export class ImagegalleryComponent implements OnInit {
 // make a get call for image path
   images = [
     {
-      src: 'https://murhafsousli.github.io/ng-gallery/assets/img/img7.jpg',
+      src: 'http://localhost/images/IMG_20170602_133107.jpg',
       text: 'City Sunset View'
     },
     {
-      src: 'https://murhafsousli.github.io/ng-gallery/assets/img/img6.jpg',
+      src: 'http://localhost/images/IMG_20170626_080941.jpg',
       text: 'Mountain'
     },
     {
-      src: 'https://murhafsousli.github.io/ng-gallery/assets/img/img5.jpg',
+      src: 'http://localhost/images/IMG_20170626_080945.jpg',
       text: 'Peacock'
     },
     {
-      src: 'https://murhafsousli.github.io/ng-gallery/assets/img/img4.jpg',
+      src: 'http://localhost/images/IMG_20170626_081205.jpg',
       text: 'Fire'
     },
     {
-      src: 'https://murhafsousli.github.io/ng-gallery/assets/img/img3.jpg',
+      src: 'http://localhost/images/IMG_20170602_133107.jpg',
       text: 'Nature'
     }
   ];
