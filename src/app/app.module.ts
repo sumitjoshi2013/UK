@@ -40,6 +40,12 @@ import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
 import {DpDatePickerModule} from 'ng2-date-picker';
 import {MyDatePickerModule } from 'mydatepicker/src/my-date-picker';
 import { EqualValidator } from './registerprofile//password.match.directive';
+import { DropdownRequired } from './common/dropdown.required.directive';
+import { ProfilelistComponent } from './profilelist/profilelist.component';
+import {MdGridListModule} from '@angular/material';
+import { MaterialModule } from '@angular/material';
+import { ProfiledetailComponent } from './profiledetail/profiledetail.component';
+
 
 export function getAuthHttp(http) {
   return new AuthHttp(new AuthConfig({
@@ -107,9 +113,14 @@ export function getAuthHttp(http) {
     FileuploadComponent,
     FileSelectDirective,
     GooglerecaptchaComponent,
-    EqualValidator
+    EqualValidator,
+    DropdownRequired,
+    ProfilelistComponent,
+    ProfiledetailComponent
   ],
   imports: [
+    MaterialModule,
+    MdGridListModule,
     MyDatePickerModule ,
   //AlertModule.forRoot(),
     BrowserModule,
@@ -132,8 +143,9 @@ export function getAuthHttp(http) {
       { path: 'RegistrationOTP', component: RegistrationThanksComponent },
       { path: 'Imagegallery', component: ImagegalleryComponent },
       { path: 'Fileupload', component: FileuploadComponent },
-      //{ path: 'Googlerecaptcha', component: GooglerecaptchaComponent },
-      
+      { path: 'profilelist', component: ProfilelistComponent },
+      { path: 'profiledetail', component: ProfiledetailComponent },
+
     ],{ useHash: true })
   ],
   providers: [

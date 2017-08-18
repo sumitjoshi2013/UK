@@ -7,17 +7,7 @@ import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
         { provide: NG_VALIDATORS, useExisting: forwardRef(() => EqualValidator), multi: true }
     ]
 })
-export class EqualValidator implements Validator {
-    constructor( @Attribute('validateEqual') public validateEqual: string,
-        @Attribute('reverse') public reverse: string) {
-
-    }
-
-    private get isReverse() {
-        if (!this.reverse) return false;
-        return this.reverse === 'true' ? true: false;
-    }
-
+export class EqualValidator  {
     validate(c: AbstractControl): { [key: string]: any } {
         // self value
         let v = c.value;
@@ -47,4 +37,15 @@ export class EqualValidator implements Validator {
 
         return null;
     }
+    constructor( @Attribute('validateEqual') public validateEqual: string,
+        @Attribute('reverse') public reverse: string) {
+
+    }
+
+    private get isReverse() {
+        if (!this.reverse) return false;
+        return this.reverse === 'true' ? true: false;
+    }
+
+   
 }

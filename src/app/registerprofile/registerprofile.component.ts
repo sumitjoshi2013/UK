@@ -1,26 +1,24 @@
 //https://github.com/kekeh/mydatepicker
-import { Component, OnInit,ViewChild ,Directive, 
-  forwardRef, Attribute,OnChanges, SimpleChanges,Input} from '@angular/core';
+import { Component, OnInit,ViewChild ,Directive,forwardRef, Attribute,OnChanges, SimpleChanges,Input} from '@angular/core';
 import { Router } from "@angular/router";
 import { NgSemanticModule } from "ng-semantic";
-import {DatePickerComponent} from 'ng2-date-picker';
-import {IMyDpOptions} from 'mydatepicker/src/my-date-picker';
+import {DatePickerComponent, IDatePickerConfig } from 'ng2-date-picker';
+import {IMyDpOptions  } from 'mydatepicker/src/my-date-picker';
 import { EqualValidator } from './password.match.directive';
-// We are going to be making a call to an external API and we’ll use the Angular HTTP library to accomplish this. Here we are importing the API’s we’ll need to work with.
-import {Http, Response, Request, RequestMethod} from '@angular/http';
+import { DropdownRequired } from './../common/dropdown.required.directive';
+import { Http, Response, Request, RequestMethod, RequestOptions } from '@angular/http';
+import { Headers } from '@angular/http';
+import {ReactiveFormsModule, FormsModule, FormGroup, FormControl, Validators, FormBuilder, NG_VALIDATORS} from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/observable/throw';
+import { NotFoundError } from './../common/not-found-error';
 
-import {
-    ReactiveFormsModule,
-    FormsModule,
-    FormGroup,
-    FormControl,
-    Validators,
-    FormBuilder, NG_VALIDATORS
-} from '@angular/forms';
- 
 export interface FormModel {
   captcha?: string;
 }
+
 
 
 @Component({
@@ -33,18 +31,67 @@ export interface FormModel {
 })
 export class RegisterprofileComponent implements OnInit {
     ngOnInit() {
-      this.createFormControls();
-      this.createForm();
+     // this.createFormControls();
+     // this.createForm();
     }
-    
+    timeobj = new Array(24);
+    minobj = new Array(60);
+
+    createRange(number){
+    var  items = [];
+      for(var i = 0; i <= number; i++){
+         items.push(i);
+      }
+      return items;
+    }
+
     @ViewChild('dayPicker') datePicker: DatePickerComponent;
     @ViewChild('f') form: any;
-     pattern="/^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/"
+    pattern="/^\+?\d{2}[- ]?\d{3}[- ]?\d{5}$/";
 
-    open() {
+  myform = new FormGroup({
+  firstName: new FormControl('', Validators.required),
+  lastName: new FormControl('', Validators.required),
+  landline:  new FormControl('', [Validators.minLength(10), Validators.maxLength(11)]),
+  phone: new FormControl('', [Validators.required, Validators.minLength(10), Validators.maxLength(10)]),
+  gender: new FormControl('', Validators.required),
+  maritalstatus : new FormControl('', Validators.required),
+  gotra : new FormControl('', Validators.required),
+  dob : new FormControl('', Validators.required),
+  time: new FormGroup({
+  hh : new FormControl('', Validators.required),
+  min : new FormControl('', Validators.required),
+  sec : new FormControl('', Validators.required)
+  }),
+  birthplace : new FormControl('', Validators.required),
+  //timeofbirth : new FormControl('', Validators.required),
+  email : new FormControl('', Validators.required),
+  password : new FormControl('', Validators.required),
+  confirmPassword : new FormControl('', Validators.required),
+  height: new FormControl('', Validators.required),
+  weight: new FormControl('', Validators.required),
+  incomerange: new FormControl('', Validators.required),
+  smokestatus: new FormControl('', Validators.required),
+  dietstatus: new FormControl('', Validators.required),
+  workstatus: new FormControl('', Validators.required),
+  drinkstatus: new FormControl('', Validators.required),
+  religion: new FormControl('', Validators.required),
+  mothertounge: new FormControl('', Validators.required),
+  rashi: new FormControl('', Validators.required),
+  education: new FormControl('', Validators.required),
+  profession: new FormControl('', Validators.required),
+  address: new FormControl('', Validators.required),
+  country: new FormControl('', Validators.required),
+  city: new FormControl('', Validators.required),
+  place: new FormControl('', Validators.required),
+  zip: new FormControl('', Validators.required),
+  about: new FormControl('', Validators.required),
+  mySubCaste: new FormControl('', Validators.required),
+  recaptcha:  new FormControl('', Validators.required)
+});
+   open() {
         this.datePicker.api.open();
     }
-
     close() {
          this.datePicker.api.close();
     }
@@ -59,14 +106,18 @@ export class RegisterprofileComponent implements OnInit {
     myDatePickerOptions: IMyDpOptions = {
       todayBtnTxt: 'Today',
       dateFormat: 'dd-mm-yyyy',
-      inline: false,
+      inline: false, showClearDateBtn: true, 
       disableSince: {year: this.year, month: this.month, day: this.day}
   };
     
+ 
+
   public alerts: any = [];
     error = "error";
     // minDate = new Date(2000, 0, 1);
     maxDate = new Date(2000, 0, 1);
+
+
     genderList = [
         {id:100, name:'Male'},
         {id:101, name:'Female'}
@@ -78,14 +129,17 @@ export class RegisterprofileComponent implements OnInit {
         {id:202, name:'Other'}
    ];
 
-    monthlyIncomeList = [
+    CTCIncomeList = [
+        {id:310, name:'No Value'},
         {id:300, name:'0 - 1,00,000'},
         {id:301, name:'1,00,000 - 3,00,000'},
         {id:302, name:'3,00,000 - 5,00,000'},
         {id:303, name:'5,00,000 - 8,00,000'},
         {id:304, name:'8,00,000 - 10,00,000'},
         {id:305, name:'10,00,000 - 13,00,000'},
-        {id:306, name:'13,00,000 - 20,00,000'}
+        {id:306, name:'13,00,000 - 15,00,000'},
+        {id:305, name:'15,00,000 - 18,00,000'},
+        {id:306, name:'18,00,000 - above 18,00,000'}
    ];
 
     smokeStatusList = [
@@ -95,13 +149,18 @@ export class RegisterprofileComponent implements OnInit {
 
     dietStatusList = [
         {id:500, name:'Veg'},
-        {id:501, name:'Non-Veg'}
+        {id:501, name:'Non-Veg'},
+        {id:502, name:'Eggetarian'},
+        {id:503, name:'Other'}
    ];
 
     workStatusList = [
-        {id:600, name:'Working'},
+        {id:600, name:'Working in Govt Organisation'},
+        {id:600, name:'Working in Semi-Govt Organisation'},
+        {id:600, name:'Working in Pvt Organisation'},
         {id:601, name:'Non-Working'},
-        {id:601, name:'Own Business'}
+        {id:601, name:'Own Business'},
+        {id:600, name:'Other'},
    ];
 
     drinkStatusList = [
@@ -147,154 +206,205 @@ export class RegisterprofileComponent implements OnInit {
         {id:1200, name:'Delhi'}
    ];
 
-public formModel: FormModel = {};
-
-    myform: FormGroup;
-    firstName: FormControl;
-    lastName: FormControl;
-    phone: FormControl;
-    gender: FormControl;
-    maritalstatus: FormControl;
-    gotra: FormControl;
-    dob: FormControl;
-    birthplace: FormControl;
-    timeofbirth: FormControl;
-    email: FormControl; 
-    password:  FormControl;
-    confirmPassword:  FormControl;
-    height:  FormControl;
-    weight:  FormControl;
-    incomerange:  FormControl;
-    smokestatus:  FormControl;
-    dietstatus:  FormControl;
-    workstatus:  FormControl;
-    drinkstatus:  FormControl;
-    religion:  FormControl;
-    mothertounge:  FormControl;
-    rashi:  FormControl;
-    education:  FormControl;
-    profession:  FormControl;
-    address:  FormControl;
-    country:  FormControl;
-    city:  FormControl;
-    place:  FormControl;
-    zip:  FormControl;
-    about:  FormControl;
-    mySubCaste:  FormControl;
-
-  constructor(private router: Router, private formBuilder: FormBuilder) {
-/*
-     this.myform = formBuilder.group({
-      password: ['', Validators.required],
-      confirmPassword: ['', Validators.required]
-    }, {
-      validator: PasswordValidation.MatchPassword // your validation method
-    })
-  */ }
-checkPasswords(group: FormGroup) { // here we have the 'passwords' group
-  let pass = group.controls.password.value;
-  let confirmPass = group.controls.confirmPass.value;
-
-  return pass === confirmPass ? null : { notSame: true }     
-}
-  createFormControls() {
-   
-    this.firstName = new FormControl('', Validators.required);
-    this.lastName = new FormControl('', Validators.required);
-    this.phone = new FormControl('', Validators.required);
-    this.gender = new FormControl('', Validators.required);
-    this.maritalstatus = new FormControl('', Validators.required);
-    this.gotra = new FormControl('', Validators.required);
-   // this.dob = new FormControl('', Validators.required);
-    this.birthplace = new FormControl('', Validators.required);
-    //this.timeofbirth = new FormControl('', Validators.required);
-    this.email = new FormControl('', Validators.required);
-   this.password = new FormControl('', Validators.required);
-    this.confirmPassword = new FormControl('', Validators.required);
-    this.height= new FormControl('', Validators.required);
-    this.maritalstatus= new FormControl('', Validators.required);
-    this.phone= new FormControl('', Validators.required);
-    this.birthplace= new FormControl('', Validators.required);
-    this.height= new FormControl('', Validators.required);
-    this.weight= new FormControl('', Validators.required);
-    this.incomerange= new FormControl('', Validators.required);
-    this.smokestatus= new FormControl('', Validators.required);
-    this.dietstatus= new FormControl('', Validators.required);
-    this.workstatus= new FormControl('', Validators.required);
-    this.drinkstatus= new FormControl('', Validators.required);
-    this.religion= new FormControl('', Validators.required);
-    this.mothertounge= new FormControl('', Validators.required);
-    this.rashi= new FormControl('', Validators.required);
-    this.education= new FormControl('', Validators.required);
-    this.profession= new FormControl('', Validators.required);
-    this.profession= new FormControl('', Validators.required);
-    this.address= new FormControl('', Validators.required);
-    this.country= new FormControl('', Validators.required);
-    this.city= new FormControl('', Validators.required);
-    this.place= new FormControl('', Validators.required);
-    this.zip= new FormControl('', Validators.required);
-    this.about= new FormControl('', Validators.required);
-    this.email= new FormControl('', Validators.required);
-    this.password= new FormControl('', Validators.required);
-    this.confirmPassword= new FormControl('', Validators.required);
-    this.mySubCaste= new FormControl('', Validators.required);
+  constructor(private router: Router, private formBuilder: FormBuilder, private http: Http) {
+  }
+  
+  
+  get hh()
+  {
+    return this.myform.get("hh");
+  }
+  
+  get min()
+  {
+    return this.myform.get("min");
   }
 
-  createForm() {
-     this.myform = new FormGroup({
-        firstName: this.firstName,
-        incomerange: this.incomerange,
-        lastName: this.lastName,
-        phone: this.phone,
-        gender: this.gender,
-        maritalstatus:  this.maritalstatus,
-        gotra: this.gotra,
-      //  dob: this.dob,
-        birthplace: this.birthplace,
-        //timeofbirth: this.timeofbirth,
-        email: this.email,
-        password: this.password ,
-        confirmPassword: this.confirmPassword,
-        height: this.height,
-        weight: this.weight,
-        smokestatus:this.smokestatus,
-        dietstatus:this.dietstatus,
-        workstatus:this.workstatus,
-        drinkstatus:this.drinkstatus,
-        religion:this.religion,
-        mothertounge:this.mothertounge,
-        rashi:this.rashi,
-        education :this.education,
-        profession :this.profession,
-        address :this.address,
-        country :this.country,
-        city:this.city,
-        place :this.place,
-        zip :this.zip,
-        about :this.about,
-        mySubCaste: this.mySubCaste
-    });
+  get sec()
+  {
+    return this.myform.get("sec");
   }
-  checkIfMatchingPasswords(passwordKey: string, passwordConfirmationKey: string) {
-          return (group: FormGroup) => {
-            let passwordInput = group.controls[passwordKey],
-                passwordConfirmationInput = group.controls[passwordConfirmationKey];
-            if (passwordInput.value !== passwordConfirmationInput.value) {
-              return passwordConfirmationInput.setErrors({notEquivalent: true})
-            }
-            else {
-                return passwordConfirmationInput.setErrors(null);
-            }
-          }
-        }
 
-   onSubmit() {
-      console.log("Form Submitted!" + this.myform);
-    if (this.myform.valid) {
-      console.log("Form Submitted!" + this.myform);
-      this.router.navigate(['/RegistrationOTP']);
-      this.myform.reset();
-    }
+  get dob()
+  {
+    return this.myform.get("dob");
+  }
+  get timeofbirth()
+  {
+    return this.myform.get("timeofbirth");
+  }
+  get firstName()
+  {
+    return this.myform.get("firstName");
+  }
+  get lastName()
+  {
+    return this.myform.get("lastName");
+  }
+  get landline()
+  {
+    return this.myform.get("landline");
+  }
+  get phone()
+  {
+    return this.myform.get("phone");
+  }
+
+  get gender()
+  {
+    return this.myform.get("gender");
+  }
+
+  get maritalstatus()
+  {
+    return this.myform.get("maritalstatus");
+  }
+  get gotra()
+  {
+    return this.myform.get("gotra");
+  }
+  get birthplace()
+  {
+    return this.myform.get("birthplace");
+  }
+  get password()
+  {
+    return this.myform.get("password");
+  }
+  get incomerange()
+  {
+    return this.myform.get("incomerange");
+  }
+  get smokestatus()
+  {
+    return this.myform.get("smokestatus");
+  }
+  get dietstatus()
+  {
+    return this.myform.get("dietstatus");
+  }
+  get workstatus()
+  {
+    return this.myform.get("workstatus");
+  }
+  get confirmPassword()
+  {
+    return this.myform.get("confirmPassword");
+  }
+  get height()
+  {
+    return this.myform.get("height");
+  }
+  get weight()
+  {
+    return this.myform.get("weight");
+  }
+  get email()
+  {
+    return this.myform.get("email");
+  }
+  get drinkstatus()
+  {
+    return this.myform.get("drinkstatus");
+  }
+  get rashi()
+  {
+    return this.myform.get("rashi");
+  }
+  get mothertounge()
+  {
+    return this.myform.get("mothertounge");
+  }
+  get religion()
+  {
+    return this.myform.get("religion");
+  }
+ 
+  get education()
+  {
+    return this.myform.get("education");
+  }
+  get profession()
+  {
+    return this.myform.get("profession");
+  }
+  get address()
+  {
+    return this.myform.get("address");
+  }
+
+  get country()
+  {
+    return this.myform.get("country");
+  }
+  get city()
+  {
+    return this.myform.get("city");
+  }
+  get place()
+  {
+    return this.myform.get("place");
+  }
+  get zip()
+  {
+    return this.myform.get("zip");
+  }
+  get about()
+  {
+    return this.myform.get("about");
+  }
+  get mySubCaste()
+  {
+    return this.myform.get("mySubCaste");
+  }
+ get recaptcha()
+ {
+  return this.myform.get("recaptcha");
+ }
+
+   onSubmit(data: any) {
+    //console.log("Form Submitted!");
+     // console.log("Form Submitted!" + JSON.stringify(this.myform.value));
+      let url1 = "http://localhost:8910/Api/api/Registration";
+      let headers = new Headers();
+      headers.append('Content-Type', 'application/json');
+      headers.append('Accept', 'application/json');
+    
+      headers.append('Access-Control-Allow-Origin','*');
+      
+      headers.append('Access-Control-Allow-Credentials', 'true');
+      //headers.append('GET', 'POST', 'OPTIONS');
+
+      
+      let options = new RequestOptions({ headers: headers });
+      console.log("POST");
+      let url = `${url1}/`;
+     
+      let f= this.http.post(url, JSON.stringify(data),options ).subscribe(res => console.log(res.json()));
+  
+    console.log(f);
+                       return f;
+   // if (this.myform.valid) {
+    //  console.log("Form Submitted!" + this.myform);
+    //  this.router.navigate(['/RegistrationOTP']);
+   //   this.myform.reset();
+   // }
+  }
+  private handleError(error: Response) {
+    if (error.status === 400)
+      {
+          console.log(error.json());
+      }
+     // return Observable.throw(new BadInput(error.json()));
+  
+    if (error.status === 404)
+      {
+        console.log(error.json());
+      }
+      return Observable.throw(new NotFoundError());
+     // return Observable.throw(new NotFoundError());
+    
+    //return Observable.throw(new AppError(error));
   }
 gotoLogin()
     {
